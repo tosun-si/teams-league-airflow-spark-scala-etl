@@ -1,0 +1,38 @@
+{
+  "team_league_etl_spark_scala_dag": {
+    "dag_folder": "team_league_etl_spark_scala_dag",
+    "team_stats_source_bucket": "mazlum_dev",
+    "team_stats_source_object": "hot/etl/spark/input_teams_stats_raw.json",
+    "team_stats_dest_bucket": "mazlum_dev",
+    "team_stats_dest_object": "cold/etl/spark/",
+    "team_stats_job_config": {
+      "spark_batch": {
+        "jar_file_uris": [
+          "gs://mazlum_dev/spark/jars/team-league-airflow-spark-etl-assembly-0.1.0-SNAPSHOT.jar"
+        ],
+        "main_class": "fr.groupbees.application.TeamLeagueApp",
+        "args": [
+          "gs://mazlum_dev/hot/etl/spark/input_teams_stats_raw.json",
+          "gs://mazlum_dev/hot/etl/spark/input_team_slogans.json",
+          "mazlum_test",
+          "team_stat"
+        ]
+      },
+      "runtime_config": {
+        "version": "2.0.33"
+      },
+      "environment_config": {
+        "execution_config": {
+          "service_account": "sa-dataproc-serverless-dev@gb-poc-373711.iam.gserviceaccount.com"
+        },
+        "peripherals_config": {
+          "spark_history_server_config": {
+            "dataproc_cluster": "projects/gb-poc-373711/regions/europe-west1/clusters/gb-spark-job-history"
+          }
+        }
+      }
+    },
+    "team_stats_job_batch_id": "team-league-etl-spark-scala-job",
+    "team_stats_job_location": "europe-west1"
+  }
+}
